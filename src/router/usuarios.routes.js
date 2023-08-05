@@ -1,5 +1,5 @@
 const {Router} = require ('express');
-const Usuario = require('../models/usuarios');
+const Usuario = require('../model/usuarios');
 const {crearNuevoUsuario } = require('../controller/usuariosController'); 
 const router = Router(); 
 // entre la ruta y los usuarios van las validaciones

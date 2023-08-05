@@ -1,7 +1,7 @@
 const express = require('express'); 
 const cors = require('cors');
 const { dbConnection } = require('../db/connection');
-const rutaUsuario = require('../router/usuarios.routes')
+const rutas = require('../router/index');
 class Server{
     constructor(){
         this.app = express(); 
@@ -13,6 +13,7 @@ class Server{
     middlewares(){
         this.app.use(cors());
         this.app.use(express.json());
+        this.app.use(express.urlencoded({extended: true})); 
         this.app.use(express.static('public'));
     }
     async DBconexion(){
@@ -25,8 +26,10 @@ class Server{
         this.app.get('/segundo-mensaje', function (req, res) {
             res.send("Segundo Mensaje: hola desde el backend!"); 
         }); 
-        this.app.use(rutaUsuario);
-    }
+        this.app.use(rutas.rutaUsuarios);
+        this.app.use(rutas.rutaRolUsuario);
+        this.app.use(rutas.rutaEstadoUsuario);
+        }
     
     listen(){
         this.app.listen(this.app.PORT, ()=> {

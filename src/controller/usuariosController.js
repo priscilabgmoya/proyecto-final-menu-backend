@@ -7,11 +7,8 @@ async function crearNuevoUsuario( req= request, res = response){
     const {nombre, correo, contraseña, rol} = bodyRequest; 
     // verificamos si existe en la base de datos
     const existeUsuario = await Usuario.findOne({correo}); 
-    if(existeUsuario){
-        return res.status(409).json({
-            msg: 'El correo se encuentra Almacenado'
-        })
-    }
+    if(existeUsuario) return res.status(409).json({msg: 'El correo se encuentra Asociado'})
+    
     const nuevoUsuario = new Usuario({nombre,correo,contraseña,rol}); 
     await nuevoUsuario.save()
             .then(data => {
