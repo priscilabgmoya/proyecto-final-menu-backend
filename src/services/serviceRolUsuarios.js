@@ -25,3 +25,7 @@ module.exports.modificaRoles = async function(id, modificacion){
         return null; 
     }
 }
+module.exports.validarEstado = async function (rol){
+    const rolExistente = await rolusuarios.findOne({rol: rol});
+    if(!rolExistente)  throw new Error(`El rol ${rol} no existe en la base de datos`);
+}
