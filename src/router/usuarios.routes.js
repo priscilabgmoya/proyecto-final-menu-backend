@@ -1,8 +1,12 @@
 const {Router} = require ('express');
-const Usuario = require('../model/usuarios');
-const {crearNuevoUsuario } = require('../controller/usuariosController'); 
+const {crearNuevoUsuario, obtenerUsuarios, login, eliminarUsuario } = require('../controller/usuariosController'); 
+const { validarNuevoUsuario, validarLogin, validarUsuarioEliminar } = require('../helpers/validacionesUsuarios');
 const router = Router(); 
-// entre la ruta y los usuarios van las validaciones
-router.get('/api/v1/ObtenerUsuarios', crearNuevoUsuario)
-//! ES un ejemplo
+
+router.post('/api/V1/login',validarLogin(),login);
+router.get('/api/V1/obtenerUsuarios', obtenerUsuarios); 
+router.post('/api/V1/crearNuevoUsuario', validarNuevoUsuario() ,crearNuevoUsuario); 
+router.delete('/api/V1/eliminarUsuario', validarUsuarioEliminar(), eliminarUsuario)
+
+
 module.exports = router; 

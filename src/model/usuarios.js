@@ -10,7 +10,7 @@ const UsuarioSchema = Schema ({
         type: String, 
         required: [true, 'El nombre es requerido']
     },
-    correo: {
+    email: {
         type: String,
         required: [true, 'El correo es requerido'],
         unique: true
@@ -20,12 +20,18 @@ const UsuarioSchema = Schema ({
         required: [true, 'La contraseña es requerido']
     },
     estado: {
-        type: Boolean,
-        default: true
+        type: String,
+        required: [true, 'El estado es requerido']
     }, 
     rol:{
-        type: String, 
-        enum:["rol_user","rol_adim"]
+        type: String,
+        required: [true, 'El rol  es requerido']
     }
 })
+
+UsuarioSchema.methods.toJSON = function() {
+    const {__v, contraseña, _id, ...usuario} = this.toObject();
+    usuario.uid = _id;
+    return usuario;
+}
 module.exports = model("usuarios",UsuarioSchema); 
