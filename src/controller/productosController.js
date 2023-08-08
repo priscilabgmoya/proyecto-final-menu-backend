@@ -4,8 +4,10 @@ const { request, response } = require('express')
 const Menu = require('../model/Producto')
 const { instanciarMenu } = require('../servicios/servicioProducto')
 
-const getAllProductos = (req = request, res = response) => {
-    res.send(`<h1>Trayendo todos los productos desde la url${req.baseUrl}</h1>`)
+const getAllProductos = async (req = request, res = response) => {
+    const menues = await Menu.find()
+    console.log(menues)
+    res.status(200).json(menues)
 }
 
 const getProducto = (req = request, res = response) =>  {
