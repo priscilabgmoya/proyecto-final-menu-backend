@@ -12,15 +12,25 @@ const getProducto = (req = request, res = response) =>  {
     res.send(`<h1>Trayendo el producto ${req.params.productoID} desde la url${req.baseUrl}</h1>`)
 }
 
-const postProducto = async (req = request, res = response) => {    
-    // asi hacemos para que no se  modiquen los datos del cliente desde el backend (yo puedo entrar a postman y agregar mas campos al body)
-    debugger
+const postProducto = async (req = request, res = response) => {
+
     const datos = req.body
-    const nuevoMenu = await instanciarMenu(datos)
-    const {status, msg, unMenu} = nuevoMenu
-    res.status(status).json({msg, unMenu})
-    //encriptacion (en este caso no hay nada por encriptar ya que esto es comida y no datos sencibles)
-    status === 200 ? await unMenu.save().then(res => console.log(res)) : null
+    const {nombre, urlImagen, detalle, precio, categoria, publicado, combo, descuento, porcentaje} = datos
+    const nuevoMenu = await new Menu( { 
+        nombre, 
+        urlImagen, 
+        detalle, 
+        precio, 
+        categoria, 
+        publicado, 
+        combo, 
+        descuento, 
+        porcentaje
+    } )
+    nuevoMenu
+        .save()
+        .then(doc => res.status(200).json({msg: "producto cargado exitosamente", doc}))
+        .catch(doc => res.status(500).json({msg: "error al cargar a la base de datos", doc}))
 }
 
 const patchProducto = (req = request, res = response) => {
