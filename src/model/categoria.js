@@ -4,22 +4,23 @@ const CategoriaSchema = Schema({
 
     nombre:{
         type: String,
-        required: [true, ""],
-        unique: true,
+        required: [true, "Nombre de la categoria"],
+        
             },
           estado: {
                 type: Boolean,
                 required: true,
-                default: true,
+               
 
-            },
-            usuario:{
-                type: Schema.Types.ObjectId,
-                ref: 'Usuario',
-                required: true
             }
 
 
-})
+});
+CategoriaSchema.methods.toJSON = function(){
+    const {__v, _id, ...CategoriaSchema} = this.toObject();
+    return CategoriaSchema;
+}
+
+
 
 module.exports = model ("categoria",CategoriaSchema)
