@@ -20,7 +20,7 @@ router
     ], productosController.postProducto)
     .put('/:productoID', [
         check('productoID', "ID invalido").isMongoId(),
-        check('productoID').custom(existeMenu)
+        validarCamposProducto
     ], productosController.putProducto)
     .delete('/:productoID', [
         check('productoID', "ID invalido").isMongoId(),

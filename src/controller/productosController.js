@@ -52,8 +52,14 @@ const postProducto = async (req = request, res = response) => {
         .catch(doc => res.status(500).json({msg: "error al cargar a la base de datos", doc}))
 }
 
-const putProducto = (req = request, res = response) => {
-    res.send(`<h1>Actualizando el producto ${req.params.productoID} desde la url${req.baseUrl}</h1>`)
+const putProducto = async (req = request, res = response) => {
+    const id = req.params.productoID
+    console.log(req.body)
+    const menuActualizado = await Menu.findByIdAndUpdate(id, req.body, { new: true })
+    console.log(menuActualizado)
+    !menuActualizado 
+        ? res.status(500).json({msg: "Error en peticion PUT de producto", menuActualizado})
+        : res.status(200).json({msg: "menu actualizado", menuActualizado})
 }
 
 const deleteProducto = async (req = request, res = response) => {
