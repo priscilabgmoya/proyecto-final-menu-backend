@@ -1,23 +1,40 @@
 //esta linea me sirve para aplicar metodos como el req.body entre otros
 const { request, response } = require('express')
+const { existeMenu } = require('../helpers/helperProducto')
 
 const Menu = require('../model/Producto')
 const { instanciarMenu } = require('../servicios/servicioProducto')
 
 const getAllProductos = async (req = request, res = response) => {
-    const menues = await Menu.find()
-    console.log(menues)
-    res.status(200).json(menues)
+    const { desde, limite } = req.query
+    const query = { publicado: true }
+    // const menues = await Menu.find().skip(desde).limit(limite)
+    // const count = await Menu.countDocuments() //trae la cantidad de documentos de mi coleccion
+    
+    //para optimizar tiempo de respuesta usar Promise all
+    
+    const [menues, count] = await Promise.all([
+        Menu.find(query).skip(desde).limit(limite).exec(),
+        Menu.countDocuments().exec()
+    ])
+    return res.status(200).json({count, menues})
 }
 
 const getProducto = (req = request, res = response) =>  {
-    res.send(`<h1>Trayendo el producto ${req.params.productoID} desde la url${req.baseUrl}</h1>`)
+    const id = req.params.productoID
+    Menu
+        .findById(id)
+        .then(data => res.status(200).json(data))
+        .catch(err => res.json(500).json({msg: "error en la peticion GET", err}))
 }
 
 const postProducto = async (req = request, res = response) => {
 
     const datos = req.body
     const {nombre, urlImagen, detalle, precio, categoria, publicado, combo, descuento, porcentaje} = datos
+    const siExiste = await existeMenu(nombre)
+    if(siExiste) 
+        return res.status(400).json({msg:`El menu '${nombre}' ya se encuentra en la db`})
     const nuevoMenu = await new Menu( { 
         nombre, 
         urlImagen, 
@@ -35,12 +52,18 @@ const postProducto = async (req = request, res = response) => {
         .catch(doc => res.status(500).json({msg: "error al cargar a la base de datos", doc}))
 }
 
-const patchProducto = (req = request, res = response) => {
+const putProducto = (req = request, res = response) => {
     res.send(`<h1>Actualizando el producto ${req.params.productoID} desde la url${req.baseUrl}</h1>`)
 }
 
-const deleteProducto = (req = request, res = response) => {
-    res.send(`<h1>Eliminando el producto ${req.params.productoID} desde la url${req.baseUrl}</h1>`)
+const deleteProducto = async (req = request, res = response) => {
+    const {id} = req.params
+    const menu = await Menu.findById(id)
+    if(!menu)
+        return res.status(500).json({msg: "El menu ya esta inactivo", menu})
+    const menuDesactivado = await Menu.findByIdAndUpdate(id, {publicado: false}, { new: true})
+    res.status(200).json({msg: "menu desactivado", menu})
+
 }
 
 
@@ -48,6 +71,6 @@ module.exports = {
     getAllProductos,
     getProducto,
     postProducto,
-    patchProducto,
+    putProducto,
     deleteProducto
 }
