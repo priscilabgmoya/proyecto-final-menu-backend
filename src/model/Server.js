@@ -1,7 +1,7 @@
 const express = require('express'); 
 const cors = require('cors');
 const { dbConnection } = require('../db/connection');
-const rutaUsuario = require('../router/usuarios.routes')
+const rutaPedidos = require('../router/pedidos.routes')
 class Server{
     constructor(){
         this.app = express(); 
@@ -25,7 +25,7 @@ class Server{
         this.app.get('/segundo-mensaje', function (req, res) {
             res.send("Segundo Mensaje: hola desde el backend!"); 
         }); 
-        this.app.use(rutaUsuario);
+        this.app.use(rutaPedidos);
     }
     
     listen(){

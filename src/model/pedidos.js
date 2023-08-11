@@ -30,5 +30,5 @@ const PedidoSchema = Schema ({
 //     //;
 // }
 
-//Funcion para validar usuario
+//Funcion para validar 
 module.exports = model("pedidos",PedidoSchema); 
