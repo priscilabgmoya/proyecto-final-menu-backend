@@ -11,7 +11,7 @@ const EstadoSchema = Schema({
     }
 });
 EstadoSchema.methods.toJSON = function() {
-    const {__v, _id, ...estadoUsuario} = this.toObject();
+    const {__v, ...estadoUsuario} = this.toObject();
     return estadoUsuario;
 }
 module.exports= model('estadousuario', EstadoSchema);
