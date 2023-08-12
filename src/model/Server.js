@@ -1,5 +1,6 @@
 const express = require('express'); 
 const cors = require('cors');
+const morgan = require('morgan'); 
 const { dbConnection } = require('../db/connection');
 const rutas = require('../router/index');
 class Server{
@@ -15,6 +16,7 @@ class Server{
         this.app.use(express.json());
         this.app.use(express.urlencoded({extended: true})); 
         this.app.use(express.static('public'));
+        this.app.use(morgan('dev'));
     }
     async DBconexion(){
         await dbConnection();

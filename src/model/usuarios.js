@@ -20,12 +20,14 @@ const UsuarioSchema = Schema ({
         required: [true, 'La contraseña es requerido']
     },
     estado: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref:"estadousuario",
         required: [true, 'El estado es requerido']
     }, 
     rol:{
-        type: String,
-        required: [true, 'El rol  es requerido']
+        type: Schema.Types.ObjectId,
+        ref:"rolusuarios",
+        required: [true, 'El rol es requerido']
     }
 })
 

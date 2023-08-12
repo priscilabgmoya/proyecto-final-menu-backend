@@ -11,7 +11,7 @@ debugger
 
     const {rol, nombre} = req.usuario
 
-    if(rol !== "administrador"){
+    if(rol.rol !== "administrador"){
         return res.status(401).json({
             msg:`${nombre} no es administrador`
         })

@@ -17,7 +17,7 @@ const validarJWT = async (req = request, res = response, next) =>{
         const {uid} = jwt.verify(token, process.env.SECRETORPRIVATEKEY);
 
 
-        const usuario = await Usuario.findById(uid)
+        const usuario = await Usuario.findById(uid).populate('rol', 'rol').populate('estado', 'nombre');
 
 
         if(!usuario){

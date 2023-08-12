@@ -1,7 +1,7 @@
 const usuarios = require('../model/usuarios'); 
 
 module.exports.buscarId = async function (id){
-    const usuarioExistente = await usuarios.findById(id);
+    const usuarioExistente = await usuarios.findById(id).populate('rol', 'rol').populate('estado', 'nombre');
     if(usuarioExistente){
         return usuarioExistente; 
     }else{
