@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const { dbConnection } = require('../db/connection');
 const rutas = require('../router/index');
+const rutaProducto = require('../router/rutaProductos')
+
 class Server{
     constructor(){
         this.app = express(); 
@@ -18,6 +20,7 @@ class Server{
     }
     async DBconexion(){
         await dbConnection();
+
     }
     router() {
         this.app.get('/', function (req, res) {
@@ -29,7 +32,10 @@ class Server{
         this.app.use(rutas.rutaUsuarios);
         this.app.use(rutas.rutaRolUsuario);
         this.app.use(rutas.rutaEstadoUsuario);
+        this.app.use('/api/v1/productos', rutaProducto)
         }
+        // this.app.use(rutaUsuario);
+    
     
     listen(){
         this.app.listen(this.app.PORT, ()=> {
