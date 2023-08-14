@@ -33,3 +33,11 @@ module.exports.validarEstadoEliminar = function() {
         validarCampos
     ]
 }
+module.exports.validarBuscarEstadoUsuarioAdmin = function (){
+    return [
+        validarJWT,
+        esSuperAdmin,
+        body ("id","id Invalido!").isMongoId(),
+        validarCampos
+    ]
+}

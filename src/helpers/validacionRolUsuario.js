@@ -32,3 +32,12 @@ module.exports.validarRolEliminar = function() {
         validarCampos
     ]
 }
+
+module.exports.validarBuscarRolAdmin = function (){
+    return [
+        validarJWT,
+        esSuperAdmin,
+        body ("id","id Invalido!").isMongoId(),
+        validarCampos
+    ]
+}

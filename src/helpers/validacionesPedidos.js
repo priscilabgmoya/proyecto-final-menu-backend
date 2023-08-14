@@ -7,18 +7,8 @@ module.exports.validarPedidoNuevo = function () {
     return [
         validarJWT,
         body ("usuario","id Invalido!").isMongoId().notEmpty().isString(),
-       /* body("fecha", 'La fecha es requerida').isDate().notEmpty(),*/
+        body("fecha", 'La fecha es requerida').isDate().notEmpty(),
         body ("menu", 'El menu es requerido').isArray().notEmpty(),
-        body("estado", 'El estado es requerido').isString().notEmpty().isMongoId(),
-        validarCampos
-    ]
-}
-
-module.exports.validarMostrarPedido = function (){
-    return [
-        validarJWT,
-        esAdminRol,
-        body ("id","id Invalido!").isMongoId(),
         body("estado", 'El estado es requerido').isString().notEmpty().isMongoId(),
         validarCampos
     ]
@@ -30,6 +20,14 @@ module.exports.validarEstadoPedido = function (){
         esAdminRol,
         body ("id","id Invalido!").isMongoId(),
         body("estado", 'El estado es requerido').isMongoId().notEmpty().isString(),
+        validarCampos
+    ]
+}
+module.exports.validarBuscarPedidoAdmin = function (){
+    return [
+        validarJWT,
+        esAdminRol,
+        body ("id","id Invalido!").isMongoId(),
         validarCampos
     ]
 }

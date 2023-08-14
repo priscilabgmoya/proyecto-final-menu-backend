@@ -33,3 +33,11 @@ module.exports.validarCategoriaEliminar = function() {
         validarCampos
     ]
 }
+module.exports.validarBuscarCategoriaAdmin = function (){
+    return [
+        validarJWT,
+        esSuperAdmin,
+        body ("id","id Invalido!").isMongoId(),
+        validarCampos
+    ]
+}
