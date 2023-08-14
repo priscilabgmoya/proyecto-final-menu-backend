@@ -17,7 +17,7 @@ const validarNumero = (...cadena) => {
 
 
 const instanciarMenu = async body => {
-    debugger
+    
     const {nombre, urlImagen, detalle, precio, categoria, publicado, descuento, porcentaje} = body
 
     //validamos que las cadenas sean correctas

@@ -17,7 +17,7 @@ module.exports.buscarId = async function (id){
     }
 }
 module.exports.modificaRoles = async function(id, modificacion){
-    debugger
+    
     const rolModificado = await rolusuarios.findByIdAndUpdate(id, modificacion, {new:true}); 
     if(rolModificado){
         return rolModificado;

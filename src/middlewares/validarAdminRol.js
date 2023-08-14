@@ -2,7 +2,7 @@ const {request, response} = require('express');
 
 
 const esAdminRol = (req = request, res = response, next) =>{
-debugger
+
     if(!req.usuario){
         return res.status(500).json({
             msg:"Se quiere validar el rol sin validar el token"

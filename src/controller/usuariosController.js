@@ -9,7 +9,6 @@ async function login(req= request, res = response){
     const {email, contraseña} = req.body;
     try {
         const usuario = await Usuario.findOne({email}).populate('rol', 'rol').populate('estado', 'nombre');
-        console.log(usuario);
         if(!usuario){
             return res.status(400).json({
                 msg:"Correo o contraseña incorrectos"
@@ -29,7 +28,7 @@ async function login(req= request, res = response){
                 msg:"Correo o contraseña incorrectos"
             })
         }
-        console.log(usuario.id);
+
         const token = await generarJWT(usuario.id);
         res.cookie('xToken' , token);
         res.set("Access-Control-Allow-Credentials", "true");
@@ -133,7 +132,7 @@ async function verificarToken (req= request, res = response) {
         if(err) return res.status(401).json({msg: "No Autorizado!!"});
         const usuario_encontrado = await buscarId(user.uid); 
         if(!usuario_encontrado) return res.status(401).json({msg: "No Autorizado, usuario no encontrado!!"});
-        console.log(usuario_encontrado);
+
         return res.json({
             id: usuario_encontrado._id, 
             nombre: usuario_encontrado.nombre,

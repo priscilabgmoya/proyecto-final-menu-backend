@@ -78,8 +78,7 @@ const eliminarPedido = async (req = request , res = response) => {
           return  res.status(500).json({msg: "Falló al eliminar el pedido !!!"});
         }
     } catch (error) {
-        console.error('Error al eliminar el pedido:', error);
-        throw new Error('Hubo un error al eliminar el pedido');
+        return res.status(404).json({msg: "ERROR!!" , e: error})
     }
 };
 async function obtenerPedido(req= request, res = response){

@@ -67,9 +67,7 @@ const postProducto = async (req = request, res = response) => {
 const putProducto = async (req = request, res = response) => {
     try {
         const id = req.params.productoID
-    console.log(req.body)
     const menuActualizado = await Menu.findByIdAndUpdate(id, req.body, { new: true })
-    console.log(menuActualizado)
     !menuActualizado 
         ? res.status(500).json({msg: "Error en peticion PUT de producto", menuActualizado})
         : res.status(200).json({msg: "menu actualizado", menuActualizado})

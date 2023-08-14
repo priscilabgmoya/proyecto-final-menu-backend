@@ -9,7 +9,7 @@ module.exports.buscarId = async function (id){
     }
 }
 module.exports.modificaUsuario = async function(id, modificacion){
-    debugger
+    
     const usuarioModficado = await usuarios.findByIdAndUpdate(id, modificacion, {new:true}); 
     if(usuarioModficado){
         return usuarioModficado;
