@@ -1,7 +1,10 @@
 const express = require('express'); 
 const cors = require('cors');
+const morgan = require('morgan'); 
 const { dbConnection } = require('../db/connection');
-const rutaUsuario = require('../router/usuarios.routes')
+const rutas = require('../router/index');
+
+
 class Server{
     constructor(){
         this.app = express(); 
@@ -13,10 +16,13 @@ class Server{
     middlewares(){
         this.app.use(cors());
         this.app.use(express.json());
+        this.app.use(express.urlencoded({extended: true})); 
         this.app.use(express.static('public'));
+        this.app.use(morgan('dev'));
     }
     async DBconexion(){
         await dbConnection();
+
     }
     router() {
         this.app.get('/', function (req, res) {
@@ -25,7 +31,14 @@ class Server{
         this.app.get('/segundo-mensaje', function (req, res) {
             res.send("Segundo Mensaje: hola desde el backend!"); 
         }); 
-        this.app.use(rutaUsuario);
+
+        this.app.use(rutas.rutaPedidos);
+        this.app.use(rutas.rutaUsuarios);
+        this.app.use(rutas.rutaRolUsuario);
+        this.app.use(rutas.rutaEstadoUsuario);
+        this.app.use('/api/V1/productos', rutas.rutaProducto);
+        this.app.use(rutas.rutaEstadoPedidos); 
+        this.app.use(rutas.rutaCategoria);
     }
     
     listen(){
