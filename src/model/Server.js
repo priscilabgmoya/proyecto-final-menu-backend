@@ -39,6 +39,7 @@ class Server{
         this.app.use('/api/V1/productos', rutas.rutaProducto);
         this.app.use(rutas.rutaEstadoPedidos); 
         this.app.use(rutas.rutaCategoria);
+        this.app.use(rutas.rutaMercadoPago);
     }
     
     listen(){
