@@ -24,6 +24,10 @@ const PedidoSchema = Schema ({
         type: Schema.Types.ObjectId,
         ref:"estadopedido",
         required: [ true, 'El estado es requerido']
+    }, 
+    precio: {
+        type: String, 
+        required: [true, 'El precio es requerida']
     }
 })
 

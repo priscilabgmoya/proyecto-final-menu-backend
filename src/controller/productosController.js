@@ -7,7 +7,7 @@ const Menu = require('../model/Producto')
 const getAllProductos = async (req = request, res = response) => {
     try {
         const { desde, limite } = req.query
-        const query = { publicado: false }
+        const query = { publicado: true }
         // const menues = await Menu.find().skip(desde).limit(limite)
         // const count = await Menu.countDocuments() //trae la cantidad de documentos de mi coleccion
         
@@ -21,7 +21,23 @@ const getAllProductos = async (req = request, res = response) => {
     } catch (error) {
       return res.status(404).json({msg: "ERROR!!" , e: error})
     }
-  
+}
+const getAllProductosAdmin = async (req = request, res = response) => {
+        try {
+            const { desde, limite } = req.query
+            // const menues = await Menu.find().skip(desde).limit(limite)
+            // const count = await Menu.countDocuments() //trae la cantidad de documentos de mi coleccion
+            
+            //para optimizar tiempo de respuesta usar Promise all
+            
+            const [menues, count] = await Promise.all([
+                Menu.find().skip(desde).limit(limite).exec(),
+                Menu.countDocuments().exec()
+            ])
+            return res.status(200).json({count, menues})
+        } catch (error) {
+          return res.status(404).json({msg: "ERROR!!" , e: error})
+        }
 }
 
 const getProducto = (req = request, res = response) =>  {
@@ -97,5 +113,6 @@ module.exports = {
     getProducto,
     postProducto,
     putProducto,
-    deleteProducto
+    deleteProducto,
+    getAllProductosAdmin
 }

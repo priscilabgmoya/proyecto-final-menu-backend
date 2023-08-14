@@ -10,6 +10,7 @@ module.exports.validarPedidoNuevo = function () {
         body("fecha", 'La fecha es requerida').isDate().notEmpty(),
         body ("menu", 'El menu es requerido').isArray().notEmpty(),
         body("estado", 'El estado es requerido').isString().notEmpty().isMongoId(),
+        body("precio", 'El precio es requerido').isString().notEmpty(),
         validarCampos
     ]
 }
