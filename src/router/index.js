@@ -5,5 +5,6 @@ module.exports={
     rutaEstadoUsuario: require('./estadoUsuario.routes'),
     rutaProducto: require('./rutaProductos'),
     rutaCategoria: require('./categoria.routes'),
-    rutaEstadoPedidos: require('./estadoPedidos.routes')
+    rutaEstadoPedidos: require('./estadoPedidos.routes'),
+    rutaMercadoPago: require('./mercadoPago.routes')
 }
