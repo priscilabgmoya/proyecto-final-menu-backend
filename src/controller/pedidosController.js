@@ -6,13 +6,14 @@ const Pedido = require('../model/pedidos')
 const guardarPedido = async (req = request , res = response) => {
     try {
         const usuario = req.usuario._id
-        const {fecha, menu, estado} = req.body
+        const {fecha, menu, estado,precio} = req.body
 
        const nuevoPedido = new Pedido({
            usuario,
             fecha,
             menu,
             estado,
+            precio
         });
 
         await nuevoPedido.save()
