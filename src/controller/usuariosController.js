@@ -45,104 +45,86 @@ async function login(req= request, res = response){
 }
 
 async function obtenerUsuarios(req= request, res = response){
-    debugger
-    const query = {estado:"64cd7db92a13bbf308f05c84"};
-    const usuariosget = await Usuario.find(query).populate('rol', 'rol').populate('estado', 'nombre');
-    console.log(usuariosget)
-    if(usuariosget.length  == 0 ) return res.status(404).json({msg: "Usuarios no disponibles "});
-    
-    return res.status(200).json({msg: "lista de usuarios", data: usuariosget});
-}
 
-async function crearNuevoUsuarioAdmin( req= request, res = response){
-    const bodyRequest = req.body; 
-    const {nombre, email, contraseña,estado,rol} = bodyRequest; 
-    
-     const existeUsuario = await Usuario.findOne({email}); 
-     if(existeUsuario) return res.status(409).json({msg: 'El correo se encuentra Asociado'})
-     
-     const nuevoUsuario = new Usuario({nombre,email,contraseña,estado,rol}); 
-     
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(contraseña, salt);
-    nuevoUsuario.contraseña = hash;
-
-    await nuevoUsuario.save()
-            .then(data => {
-                if(data !== null){
-                    return res.status(201).json({msg: 'Usuario Creado', data: data})
-                }else{
-                    return  res.status(500).json({msg: "Falló al agregar el nuevo usuario !!!"});
-                }
-    })
-}
-async function crearNuevoUsuario( req= request, res = response){
-    const bodyRequest = req.body; 
-    const {nombre, email, contraseña,estado,rol} = bodyRequest; 
-    
-     const existeUsuario = await Usuario.findOne({email}); 
-     if(existeUsuario) return res.status(409).json({msg: 'El correo se encuentra Asociado'})
-     
-     const nuevoUsuario = new Usuario({nombre,email,contraseña,estado,rol}); 
-     
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(contraseña, salt);
-    nuevoUsuario.contraseña = hash;
-
-    await nuevoUsuario.save()
-            .then(data => {
-                if(data !== null){
-                    return res.status(201).json({mensaje: 'Usuario Creado', data: data})
-                }else{
-                    return  res.status(500).json({msg: "Falló al agregar el nuevo usuario !!!"});
-                }
-    })
-}
-async function modificarUsuarioAdmin(req= request, res = response){
-    const {id, ...usuarioModificado} = req.body;
-
-    const usuario_encontrado = await buscarId(id); 
-    if(!usuario_encontrado)  return res.status(404).json({msg: "Usuario no encontrado"});
-  
-    const isUpdateOk = await modificarRoles(id,usuarioModificado); 
-    if(isUpdateOk){
-     return  res.status(200).json({msg: "Estado Modificado",data: isUpdateOk})
-    }else {
-      return  res.status(500).json({msg: "Falló al modificar el estado !!!"});
+    try {
+        const query = {estado:"64cd7db92a13bbf308f05c84"};
+        const usuariosget = await Usuario.find(query).populate('rol', 'rol').populate('estado', 'nombre');
+        if(usuariosget.length  == 0 ) return res.status(404).json({msg: "Usuarios no disponibles "});
+        
+        return res.status(200).json({msg: "lista de usuarios", data: usuariosget});
+    } catch (error) {
+        return res.status(404).json({msg: "ERROR!!" , e: error})
     }
-  
+
+}
+
+async function crearNuevoUsuario( req= request, res = response){
+    try {
+        const bodyRequest = req.body; 
+        const {nombre, email, contraseña,estado,rol} = bodyRequest; 
+        
+         const existeUsuario = await Usuario.findOne({email}); 
+         if(existeUsuario) return res.status(409).json({msg: 'El correo se encuentra Asociado'})
+         
+         const nuevoUsuario = new Usuario({nombre,email,contraseña,estado,rol}); 
+         
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(contraseña, salt);
+        nuevoUsuario.contraseña = hash;
+    
+        await nuevoUsuario.save()
+                .then(data => {
+                    if(data !== null){
+                        return res.status(201).json({mensaje: 'Usuario Creado', data: data})
+                    }else{
+                        return  res.status(500).json({msg: "Falló al agregar el nuevo usuario !!!"});
+                    }
+        })
+    } catch (error) {
+        return res.status(404).json({msg: "ERROR!!" , e: error})
+    }
 }
 async function modificarUsuario(req= request, res = response){
-    const {id, ...usuarioModificado} = req.body;
 
-    const usuario_encontrado = await buscarId(id); 
-    if(!usuario_encontrado)  return res.status(404).json({msg: "Usuario no encontrado"});
-  
-    const isUpdateOk = await modificarRoles(id,usuarioModificado); 
-    if(isUpdateOk){
-     return  res.status(200).json({msg: "Estado Modificado",data: isUpdateOk})
-    }else {
-      return  res.status(500).json({msg: "Falló al modificar el estado !!!"});
+    try {
+        const {id, ...usuarioModificado} = req.body;
+
+        const usuario_encontrado = await buscarId(id); 
+        if(!usuario_encontrado)  return res.status(404).json({msg: "Usuario no encontrado"});
+      
+        const isUpdateOk = await modificarRoles(id,usuarioModificado); 
+        if(isUpdateOk){
+         return  res.status(200).json({msg: "Estado Modificado",data: isUpdateOk})
+        }else {
+          return  res.status(500).json({msg: "Falló al modificar el estado !!!"});
+        } 
+    } catch (error) {
+        return res.status(404).json({msg: "ERROR!!" , e: error})
     }
-  
 }
 
 async function eliminarUsuario(req= request, res = response){
-    const {id, ...usuarioEliminado} = req.body;
+    try {
+        const {id, ...usuarioEliminado} = req.body;
 
-    const usuario_encontrado = await buscarId(id); 
-    if(!usuario_encontrado)  return res.status(404).json({msg: "Usuario no encontrado"});
-  
-    const isDeleteOk = await modificaUsuario(id,usuarioEliminado); 
-    if(isDeleteOk){
-     return  res.status(200).json({msg: "Usuario Eliminado logicamente",data: isDeleteOk})
-    }else {
-      return  res.status(500).json({msg: "Falló al eliminar el usuario !!!"});
+        const usuario_encontrado = await buscarId(id); 
+        if(!usuario_encontrado)  return res.status(404).json({msg: "Usuario no encontrado"});
+      
+        const isDeleteOk = await modificaUsuario(id,usuarioEliminado); 
+        if(isDeleteOk){
+         return  res.status(200).json({msg: "Usuario Eliminado",data: isDeleteOk})
+        }else {
+          return  res.status(500).json({msg: "Falló al eliminar el usuario !!!"});
+        }
+    } catch (error) {
+        return res.status(404).json({msg: "ERROR!!" , e: error})
     }
+
 }
 async function verificarToken (req= request, res = response) {
 
-    const {jwToken }= req.body; 
+    try {
+        const {jwToken }= req.body; 
 
 
     if(!jwToken) return res.status(401).json({msg: "No Autorizado, no se ingreso un Token!!"});
@@ -160,16 +142,31 @@ async function verificarToken (req= request, res = response) {
             estado: usuario_encontrado.estado
         })
     })
+    } catch (error) {
+       return res.status(404).json({msg: "ERROR!!" , e: error})
+    }
+    
     
 }
 
+async function obtenerUsuario(req= request, res = response){
+    try {
+       const {id} = req.params.id; 
+
+       const usuarioExistente = await buscarId(id);
+       if (!usuarioExistente) res.status(404).json({msg: "usuario no encontrado!!"});
+
+        return res.status(200).json({msg: "usuario", data: usuarioExistente});
+    } catch (error) {
+        return res.status(404).json({msg: "ERROR!!" , e: error})
+    }
+}
 module.exports ={
     login,
     obtenerUsuarios, 
-    crearNuevoUsuarioAdmin, 
     crearNuevoUsuario, 
     eliminarUsuario,
     modificarUsuario,
-    modificarUsuarioAdmin,
     verificarToken,
+    obtenerUsuario,
 }

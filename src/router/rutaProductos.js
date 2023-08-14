@@ -1,4 +1,3 @@
-
 const productosController = require('../controller/productosController') 
 const { check } = require('express-validator')
 const { validarCampos } = require('../middlewares/validarCampos')

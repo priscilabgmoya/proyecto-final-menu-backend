@@ -11,7 +11,7 @@ const esSuperAdmin = (req = request, res = response, next) =>{
 
     const {rol, nombre} = req.usuario
 
-    if(rol !== "superAdmin"){
+    if(rol.rol !== "superAdmin"){
         return res.status(401).json({
             msg:`${nombre} no es superAdmin`
         })

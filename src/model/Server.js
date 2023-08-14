@@ -2,9 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan'); 
 const { dbConnection } = require('../db/connection');
-const rutaPedidos = require('../router/pedidos.routes')
 const rutas = require('../router/index');
-const rutaProducto = require('../router/rutaProductos')
+
 
 class Server{
     constructor(){
@@ -33,11 +32,13 @@ class Server{
             res.send("Segundo Mensaje: hola desde el backend!"); 
         }); 
 
-        this.app.use(rutaPedidos);
+        this.app.use(rutas.rutaPedidos);
         this.app.use(rutas.rutaUsuarios);
         this.app.use(rutas.rutaRolUsuario);
         this.app.use(rutas.rutaEstadoUsuario);
-        this.app.use('/api/v1/productos', rutaProducto)
+        this.app.use('/api/V1/productos', rutas.rutaProducto);
+        this.app.use(rutas.rutaEstadoPedidos); 
+        this.app.use(rutas.rutaCategoria);
     }
     
     listen(){

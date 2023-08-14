@@ -4,10 +4,10 @@ const {guardarPedido, mostrarPedidos, modificarEstadoPedido, eliminarPedido} = r
 const {validarPedidoNuevo, validarMostrarPedido, validarEstadoPedido, validarEliminarEstadoPedido} = require ('../helpers/validacionesPedidos');
 const router = Router();
 
-router.post('/api/V1/pedidos',guardarPedido(),validarEstadoPedido);
-router.get('/api/V1/mostrarPedidos', mostrarPedidos() , validarMostrarPedido); 
-router.post('/api/V1/pedidoNuevo', validarPedidoNuevo(), modificarEstadoPedido); 
-router.delete('/api/V1/eliminarPedido', validarEliminarEstadoPedido(), eliminarPedido)
+router.get('/api/V1/mostrarPedidos', mostrarPedidos ); 
+router.post('/api/V1/pedidos', validarPedidoNuevo(), guardarPedido);
+router.post('/api/V1/pedidoNuevo', modificarEstadoPedido); 
+router.delete('/api/V1/eliminarPedido', validarEliminarEstadoPedido(), eliminarPedido);
 
 
 module.exports = router;

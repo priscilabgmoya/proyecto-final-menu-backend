@@ -27,7 +27,7 @@ const validarJWT = async (req = request, res = response, next) =>{
         }
 
         //Verificar si el usuario está activo
-        if(usuario.estado == 'inactivo'){
+        if(usuario.estado.nombre == 'inactivo'){
             return res.status(401).json({
                 msg:"Usuario inactivo"
             })

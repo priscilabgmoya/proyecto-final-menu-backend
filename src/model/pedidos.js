@@ -8,10 +8,10 @@ const PedidoSchema = Schema ({
     //estado
 
     usuario: {
-        type: Object,
+        type: Schema.Types.ObjectId,
+        ref:"usuarios",
         required : [true , 'El usuario es requerido']
     },
-
     fecha:{
         type: Date,
         required: [true, 'La fecha es requerida']
@@ -21,7 +21,8 @@ const PedidoSchema = Schema ({
         required:[true, 'El menu es requerido']
     },
     estado:{
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref:"estadopedido",
         required: [ true, 'El estado es requerido']
     }
 })

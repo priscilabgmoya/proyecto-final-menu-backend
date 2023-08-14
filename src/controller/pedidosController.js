@@ -1,84 +1,103 @@
 const { request, response } = require('express');
-const bodyParser = require('body-parser');
+
 const Pedido = require('../model/pedidos')
-const app = express();
-
-
-app.use(bodyParser.json());
-
 
 // Guardar Pedido
-const guardarPedido = async (usuario, fecha, menu, estado) => {
+const guardarPedido = async (req = request , res = response) => {
     try {
-        const nuevoPedido = new Pedido({
-            usuario,
+        const usuario = req.usuario._id
+        const {fecha, menu, estado} = req.body
+
+       const nuevoPedido = new Pedido({
+           usuario,
             fecha,
             menu,
             estado,
         });
 
-        await nuevoPedido.save();
-        return 'Pedido guardado';
+        await nuevoPedido.save()
+        .then(data => {
+            if(data !== null){
+                return res.status(201).json({mensaje: 'Pedido Creado', data: data})
+            }else{
+                return  res.status(500).json({msg: "Falló al agregar el nuevo pedido !!!"});
+            }
+});
     } catch (error) {
-        console.error('Error al guardar el pedido:', error);
-        throw new Error('Hubo un error al guardar el pedido');
+        return res.status(404).json({msg: "ERROR!!" , e: error})
     }
 };
 
 
 //Mostrar pedido
 
-const mostrarPedidos = async () => {
+const mostrarPedidos = async (req = request , res = response) => {
     try {
-        const pedidos = await Pedido.find();
-        return pedidos;
+        const pedidos = await Pedido.find().populate('usuario', ' nombre ').populate('estado', 'nombre');
+        if(pedidos.length  == 0 ) return res.status(404).json({msg: "Pedidos no disponibles "});
+        
+        return res.status(200).json({msg: "lista de usuarios", data: pedidos});
     } catch (error) {
-        console.error('Error al obtener los pedidos:', error);
-        throw new Error('Hubo un error al obtener los pedidos');
+        return res.status(404).json({msg: "ERROR!!" , e: error})
     }
 };
 
 //Modificar estado Pedido
 
-const modificarEstadoPedido = async (pedidoId, nuevoEstado) => {
+const modificarEstadoPedido = async (req = request , res = response) => {
     try {
-        const pedido = await Pedido.findByIdAndUpdate(
-            pedidoId,
-            { estado: nuevoEstado },
-            { new: true }
-        );
+   const {id, ...pedidoModificado} = req.body;
 
-        if (!pedido) {
-            throw new Error('Pedido no encontrado');
-        }
-
-        return pedido;
+    const pedido_encontrado = await buscarId(id); 
+    if(!pedido_encontrado)  return res.status(404).json({msg: "Pedido no encontrado"});
+  
+    const isUpdateOk = await modificarRoles(id,pedidoModificado); 
+    if(isUpdateOk){
+     return  res.status(200).json({msg: "Pedido Modificado",data: isUpdateOk})
+    }else {
+      return  res.status(500).json({msg: "Falló al modificar el pedido !!!"});
+    }
+  
     } catch (error) {
-        console.error('Error al modificar el estado del pedido:', error);
-        throw new Error('Hubo un error al modificar el estado del pedido');
+        return res.status(404).json({msg: "ERROR!!" , e: error})
     }
 };
 
 // Eliminiar pedido
-const eliminarPedido = async (pedidoId) => {
+const eliminarPedido = async (req = request , res = response) => {
     try {
-        const pedido = await Pedido.findByIdAndDelete(pedidoId);
+        const {id, ...pedidoModificado} = req.body;
 
-        if (!pedido) {
-            throw new Error('Pedido no encontrado');
+        const pedido_encontrado = await buscarId(id); 
+        if(!pedido_encontrado)  return res.status(404).json({msg: "Pedido no encontrado"});
+      
+        const isDeleteOk = await modificarRoles(id,pedidoModificado); 
+        if(isDeleteOk){
+         return  res.status(200).json({msg: "Pedido Eliminado",data: isDeleteOk})
+        }else {
+          return  res.status(500).json({msg: "Falló al eliminar el pedido !!!"});
         }
-
-        return 'Pedido eliminado';
     } catch (error) {
         console.error('Error al eliminar el pedido:', error);
         throw new Error('Hubo un error al eliminar el pedido');
     }
 };
-
-
+async function obtenerPedido(req= request, res = response){
+    try {
+       const {id} = req.params.id; 
+  
+       const categoriaExistente = await buscarId(id);
+       if (!categoriaExistente) res.status(404).json({msg: "pedido no encontrado!!"});
+  
+        return res.status(200).json({msg: "pedido", data: categoriaExistente});
+    } catch (error) {
+        return res.status(404).json({msg: "ERROR!!" , e: error})
+    }
+  }
 module.exports = {
     guardarPedido,
     modificarEstadoPedido,
     mostrarPedidos,
-    eliminarPedido
+    eliminarPedido,
+    obtenerPedido
 }

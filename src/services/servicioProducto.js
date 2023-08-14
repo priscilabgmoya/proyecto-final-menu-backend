@@ -18,7 +18,7 @@ const validarNumero = (...cadena) => {
 
 const instanciarMenu = async body => {
     debugger
-    const {nombre, urlImagen, detalle, precio, categoria, publicado, combo, descuento, porcentaje} = body
+    const {nombre, urlImagen, detalle, precio, categoria, publicado, descuento, porcentaje} = body
 
     //validamos que las cadenas sean correctas
     let cadenasValidas = await validarCadena(nombre, urlImagen, detalle, categoria)
@@ -30,7 +30,7 @@ const instanciarMenu = async body => {
             unMenu: null
         }
     }
-    const unMenu = await new Menu({nombre, urlImagen, detalle, precio, categoria, publicado, combo, descuento, porcentaje})
+    const unMenu = await new Menu({nombre, urlImagen, detalle, precio, categoria, publicado, descuento, porcentaje})
 
     //validamos que solo haya un producto con ese nombre
     let existeMenu = await Menu.findOne({nombre})

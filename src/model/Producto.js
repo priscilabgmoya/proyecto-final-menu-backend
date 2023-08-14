@@ -33,10 +33,6 @@ const ProductoSchema = Schema({
         type: Boolean,
         default: true
     },
-    combo: {
-        type: Boolean,
-        default: false
-    },
     descuento: {
         type: Boolean,
         default: false
