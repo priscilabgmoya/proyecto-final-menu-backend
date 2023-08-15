@@ -9,9 +9,9 @@ class Server{
     constructor(){
         this.app = express(); 
         this.app.PORT = process.env.PORT;
+        this.middlewares();
         this.DBconexion(); 
         this.router(); 
-        this.middlewares();
     }
     middlewares(){
         this.app.use(cors());
