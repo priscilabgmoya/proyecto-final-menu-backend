@@ -7,11 +7,11 @@ const rutas = require('../router/index');
 
 class Server{
     constructor(){
-        this.middlewares();
         this.app = express(); 
         this.app.PORT = process.env.PORT;
         this.DBconexion(); 
         this.router(); 
+        this.middlewares();
     }
     middlewares(){
         this.app.use(cors());
