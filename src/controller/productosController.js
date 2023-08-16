@@ -72,7 +72,7 @@ const postProducto = async (req = request, res = response) => {
     } )
     nuevoMenu
         .save()
-        .then(doc => res.status(200).json({msg: "producto cargado exitosamente", doc}))
+        .then(doc => res.status(201).json({msg: "producto cargado exitosamente", doc}))
         .catch(doc => res.status(500).json({msg: "error al cargar a la base de datos", doc}))
     } catch (error) {
       return res.status(404).json({msg: "ERROR!!" , e: error})

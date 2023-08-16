@@ -74,7 +74,7 @@ async function crearNuevoUsuario( req= request, res = response){
         await nuevoUsuario.save()
                 .then(data => {
                     if(data !== null){
-                        return res.status(201).json({mensaje: 'Usuario Creado', data: data})
+                        return res.status(201).json({msg: 'Usuario Creado', data: data})
                     }else{
                         return  res.status(500).json({msg: "Falló al agregar el nuevo usuario !!!"});
                     }
@@ -108,8 +108,9 @@ async function eliminarUsuario(req= request, res = response){
 
         const usuario_encontrado = await buscarId(id); 
         if(!usuario_encontrado)  return res.status(404).json({msg: "Usuario no encontrado"});
-      
+
         const isDeleteOk = await modificaUsuario(id,usuarioEliminado); 
+
         if(isDeleteOk){
          return  res.status(200).json({msg: "Usuario Eliminado",data: isDeleteOk})
         }else {
