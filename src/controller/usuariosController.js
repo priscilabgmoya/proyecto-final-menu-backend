@@ -91,7 +91,7 @@ async function modificarUsuario(req= request, res = response){
         const usuario_encontrado = await buscarId(id); 
         if(!usuario_encontrado)  return res.status(404).json({msg: "Usuario no encontrado"});
       
-        const isUpdateOk = await modificarRoles(id,usuarioModificado); 
+        const isUpdateOk = await modificaUsuario(id,usuarioModificado); 
         if(isUpdateOk){
          return  res.status(200).json({msg: "Estado Modificado",data: isUpdateOk})
         }else {
