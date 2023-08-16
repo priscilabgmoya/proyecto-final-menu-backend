@@ -1,7 +1,7 @@
 const {Router} = require ('express');
 const {crearNuevoUsuario, obtenerUsuarios, login, eliminarUsuario, modificarUsuario,  verificarToken, obtenerUsuario} = require('../controller/usuariosController'); 
 const { validarNuevoUsuarioAdmin, validarLogin, validarUsuarioEliminar ,validarNuevoUsuario, validarUsuarioMoficadoAdmin, validarUsuarioMoficado, validarBuscarUsuario, validarBuscarUsuarioAdmin} = require('../helpers/validacionesUsuarios');
-const router = Router(); 
+const router = Router() ; 
 
 router.post('/api/V1/login',validarLogin(),login);
 router.get('/api/V1/obtenerUsuarios', obtenerUsuarios); 
