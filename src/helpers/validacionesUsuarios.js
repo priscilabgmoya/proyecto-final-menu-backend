@@ -1,4 +1,4 @@
-const { body } = require('express-validator'); 
+const { body, check } = require('express-validator'); 
 const ER = require('./expresionesRegulares');
 const { validarCampos } = require('../middlewares/validarCampos');
 const { validarJWT } = require('../middlewares/validarToken');
@@ -69,14 +69,14 @@ module.exports.validarBuscarUsuarioAdmin = function (){
     return [
         validarJWT,
         esAdminRol,
-        body ("id","id Invalido!").isMongoId(),
+        check ("id","id Invalido!").isMongoId(),
         validarCampos
     ]
 }
 module.exports.validarBuscarUsuario = function (){
     return [
          validarJWT,
-         body ("id","id Invalido!").isMongoId(),
+         check ("id","id Invalido!").isMongoId(),
          validarCampos
      ]
 }
