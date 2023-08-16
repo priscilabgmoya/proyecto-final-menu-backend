@@ -1,9 +1,10 @@
 const pedido = require('../model/pedidos'); 
 
 module.exports.buscarId = async function (id){
-    const usuarioExistente = await pedido.findById(id).populate('usuario', 'nombre').populate('estado', 'nombre');
-    if(usuarioExistente){
-        return usuarioExistente; 
+
+    const pedidoExistente = await pedido.findById(id).populate('usuario', 'nombre').populate('estado', 'nombre');
+    if(pedidoExistente){
+        return pedidoExistente; 
     }else{
         return null; 
     }

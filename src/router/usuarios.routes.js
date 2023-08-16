@@ -5,7 +5,7 @@ const router = Router();
 
 router.post('/api/V1/login',validarLogin(),login);
 router.get('/api/V1/obtenerUsuarios', obtenerUsuarios); 
-router.get('/api/V1/obtenerUsuarioAdmin/:id',validarBuscarUsuarioAdmin(),obtenerUsuario);
+router.get('/api/V1/obtenerUsuarioAdmin',validarBuscarUsuarioAdmin(),obtenerUsuario);
 router.get('/api/V1/obtenerUsuario/:id',obtenerUsuario);
 router.post('/api/V1/verificarToken', verificarToken); 
 router.post('/api/V1/crearNuevoUsuarioAdmin', validarNuevoUsuarioAdmin() ,crearNuevoUsuario); 
