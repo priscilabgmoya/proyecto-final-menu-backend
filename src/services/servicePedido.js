@@ -9,9 +9,9 @@ module.exports.buscarId = async function (id){
     }
 }
 module.exports.modificaPedido = async function(id, modificacion){
-    const usuarioModficado = await usuarios.findByIdAndUpdate(id, modificacion, {new:true}); 
-    if(usuarioModficado){
-        return usuarioModficado;
+    const pedidoModficado = await pedido.findByIdAndUpdate(id, modificacion, {new:true}); 
+    if(pedidoModficado){
+        return pedidoModficado;
     }else{
         return null; 
     }

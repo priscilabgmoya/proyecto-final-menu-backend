@@ -39,7 +39,7 @@ const mostrarPedidos = async (req = request , res = response) => {
         const pedidos = await Pedido.find().populate('usuario', ' nombre ').populate('estado', 'nombre');
         if(pedidos.length  == 0 ) return res.status(404).json({msg: "Pedidos no disponibles "});
         
-        return res.status(200).json({msg: "lista de usuarios", data: pedidos});
+        return res.status(200).json({msg: "lista de pedidos", data: pedidos});
     } catch (error) {
         return res.status(404).json({msg: "ERROR!!" , e: error})
     }
