@@ -14,7 +14,7 @@ const PedidoSchema = Schema ({
     },
     fecha:{
         type: Date,
-        required: [true, 'La fecha es requerida']
+        default : Date.now
     },
     menu:{
         type: Array,

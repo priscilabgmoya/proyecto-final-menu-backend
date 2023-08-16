@@ -1,6 +1,7 @@
 const { request, response } = require('express');
 
-const Pedido = require('../model/pedidos')
+const Pedido = require('../model/pedidos');
+const { modificaPedido, buscarId } = require('../services/servicePedido');
 
 // Guardar Pedido
 const guardarPedido = async (req = request , res = response) => {
@@ -34,6 +35,7 @@ const guardarPedido = async (req = request , res = response) => {
 
 const mostrarPedidos = async (req = request , res = response) => {
     try {
+
         const pedidos = await Pedido.find().populate('usuario', ' nombre ').populate('estado', 'nombre');
         if(pedidos.length  == 0 ) return res.status(404).json({msg: "Pedidos no disponibles "});
         
@@ -52,7 +54,7 @@ const modificarEstadoPedido = async (req = request , res = response) => {
     const pedido_encontrado = await buscarId(id); 
     if(!pedido_encontrado)  return res.status(404).json({msg: "Pedido no encontrado"});
   
-    const isUpdateOk = await modificarRoles(id,pedidoModificado); 
+    const isUpdateOk = await modificaPedido(id,pedidoModificado); 
     if(isUpdateOk){
      return  res.status(200).json({msg: "Pedido Modificado",data: isUpdateOk})
     }else {
@@ -64,7 +66,7 @@ const modificarEstadoPedido = async (req = request , res = response) => {
     }
 };
 
-// Eliminiar pedido
+// Eliminar pedido
 const eliminarPedido = async (req = request , res = response) => {
     try {
         const {id, ...pedidoModificado} = req.body;
@@ -72,7 +74,7 @@ const eliminarPedido = async (req = request , res = response) => {
         const pedido_encontrado = await buscarId(id); 
         if(!pedido_encontrado)  return res.status(404).json({msg: "Pedido no encontrado"});
       
-        const isDeleteOk = await modificarRoles(id,pedidoModificado); 
+        const isDeleteOk = await modificaPedido(id,pedidoModificado); 
         if(isDeleteOk){
          return  res.status(200).json({msg: "Pedido Eliminado",data: isDeleteOk})
         }else {
