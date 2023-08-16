@@ -24,14 +24,14 @@ const getAllProductos = async (req = request, res = response) => {
 }
 const getAllProductosAdmin = async (req = request, res = response) => {
         try {
-            const { desde, limite } = req.query
+           
             // const menues = await Menu.find().skip(desde).limit(limite)
             // const count = await Menu.countDocuments() //trae la cantidad de documentos de mi coleccion
             
             //para optimizar tiempo de respuesta usar Promise all
             
             const [menues, count] = await Promise.all([
-                Menu.find().skip(desde).limit(limite).exec(),
+                Menu.find().exec(),
                 Menu.countDocuments().exec()
             ])
             return res.status(200).json({count, menues})
