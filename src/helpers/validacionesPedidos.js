@@ -1,4 +1,4 @@
-const { body } = require('express-validator'); 
+const { body, check } = require('express-validator'); 
 const { validarCampos } = require('../middlewares/validarCampos');
 const { validarJWT } = require('../middlewares/validarToken');
 const { esAdminRol } = require('../middlewares/validarAdminRol');
@@ -28,7 +28,7 @@ module.exports.validarBuscarPedidoAdmin = function (){
     return [
         validarJWT,
         esAdminRol,
-        body ("id","id Invalido!").isMongoId(),
+        check ("id","id Invalido!").isMongoId(),
         validarCampos
     ]
 }
