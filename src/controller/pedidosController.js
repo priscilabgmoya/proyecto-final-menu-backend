@@ -86,7 +86,7 @@ const eliminarPedido = async (req = request , res = response) => {
 };
 async function obtenerPedido(req= request, res = response){
     try {
-        const {id} = req.body; 
+        const {id} = req.params; 
   
        const categoriaExistente = await buscarId(id);
        if (!categoriaExistente) res.status(404).json({msg: "pedido no encontrado!!"});
