@@ -35,8 +35,8 @@ const guardarPedido = async (req = request , res = response) => {
 
 const mostrarPedidos = async (req = request , res = response) => {
     try {
-
-        const pedidos = await Pedido.find().populate('usuario', ' nombre ').populate('estado', 'nombre');
+        const query = {estado: '64d96e3ae9674438c0579d08'}
+        const pedidos = await Pedido.find(query).populate('usuario', ' nombre ').populate('estado', 'nombre');
         if(pedidos.length  == 0 ) return res.status(404).json({msg: "Pedidos no disponibles "});
         
         return res.status(200).json({msg: "lista de pedidos", data: pedidos});
@@ -86,7 +86,7 @@ const eliminarPedido = async (req = request , res = response) => {
 };
 async function obtenerPedido(req= request, res = response){
     try {
-       const {id} = req.params.id; 
+        const {id} = req.body; 
   
        const categoriaExistente = await buscarId(id);
        if (!categoriaExistente) res.status(404).json({msg: "pedido no encontrado!!"});

@@ -151,7 +151,7 @@ async function verificarToken (req= request, res = response) {
 
 async function obtenerUsuario(req= request, res = response){
     try {
-       const {id} = req.params.id; 
+       const {id} = req.body; 
 
        const usuarioExistente = await buscarId(id);
        if (!usuarioExistente) res.status(404).json({msg: "usuario no encontrado!!"});
