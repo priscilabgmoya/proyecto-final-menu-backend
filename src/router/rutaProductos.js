@@ -9,10 +9,7 @@ const router = Router()
 
 router
     .get('/', productosController.getAllProductos)
-    .get('/productoAdmin' ,[        
-        validarJWT,
-        esAdminRol
-    ],  productosController.getAllProductosAdmin) 
+    .get('/productoAdmin',  productosController.getAllProductosAdmin) 
     .get('/:productoID', productosController.getProducto)
     .post('/', [
         validarJWT,
