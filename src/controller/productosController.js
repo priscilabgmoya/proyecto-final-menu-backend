@@ -95,11 +95,10 @@ const putProducto = async (req = request, res = response) => {
 
 const deleteProducto = async (req = request, res = response) => {
     try {
-        const {id} = req.params
-    const menu = await Menu.findById(id)
-    if(!menu)
-        return res.status(500).json({msg: "El menu ya esta inactivo", menu})
-    const menuDesactivado = await Menu.findByIdAndUpdate(id, {publicado: false}, { new: true})
+        const {productoID} = req.params
+    const menu = await Menu.findById(productoID)
+    if(!menu) return res.status(500).json({msg: "El menu ya esta inactivo", menu})
+    const menuDesactivado = await Menu.findByIdAndUpdate(productoID, {publicado: false}, { new: true})
     res.status(200).json({msg: "menu desactivado", menuDesactivado})
 
     } catch (error) {
