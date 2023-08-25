@@ -84,14 +84,30 @@ async function crearNuevoUsuario( req= request, res = response){
     }
 }
 async function modificarUsuario(req= request, res = response){
-
     try {
         const {id, ...usuarioModificado} = req.body;
 
         const usuario_encontrado = await buscarId(id); 
         if(!usuario_encontrado)  return res.status(404).json({msg: "Usuario no encontrado"});
       
-        const isUpdateOk = await modificaUsuario(id,usuarioModificado); 
+        const validPassword = bcrypt.compareSync( usuarioModificado.contraseñaActual,usuario_encontrado.contraseña);
+
+        if(!validPassword){
+            return res.status(400).json({
+                msg:"Correo o contraseña incorrectos"
+            })
+        }
+        let usuarioNuevaModificacion = {
+            nombre: usuarioModificado.nombre,
+            email: usuarioModificado.email,
+            contraseña: ""
+        }
+        if(usuarioModificado.contraseña && validPassword){
+            const salt = bcrypt.genSaltSync(10);
+            const hash = bcrypt.hashSync(usuarioModificado.contraseña, salt);
+            usuarioNuevaModificacion.contraseña = hash;
+        }
+        const isUpdateOk = await modificaUsuario(id,usuarioNuevaModificacion); 
         if(isUpdateOk){
          return  res.status(200).json({msg: "Estado Modificado",data: isUpdateOk})
         }else {
@@ -102,6 +118,24 @@ async function modificarUsuario(req= request, res = response){
     }
 }
 
+async function modificarUsuarioAdmin(req= request, res = response){
+
+    try {
+        const {id, ...usuarioModificado} = req.body;
+
+        const usuario_encontrado = await buscarId(id); 
+        if(!usuario_encontrado)  return res.status(404).json({msg: "Usuario no encontrado"});
+
+        const isUpdateOk = await modificaUsuario(id,usuarioModificado); 
+        if(isUpdateOk){
+         return  res.status(200).json({msg: "Estado Modificado",data: isUpdateOk})
+        }else {
+          return  res.status(500).json({msg: "Falló al modificar el estado !!!"});
+        } 
+    } catch (error) {
+        return res.status(404).json({msg: "ERROR!!" , e: error})
+    }
+}
 async function eliminarUsuario(req= request, res = response){
     try {
         const {id, ...usuarioEliminado} = req.body;
@@ -169,4 +203,5 @@ module.exports ={
     modificarUsuario,
     verificarToken,
     obtenerUsuario,
+    modificarUsuarioAdmin
 }

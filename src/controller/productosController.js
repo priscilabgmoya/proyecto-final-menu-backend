@@ -6,15 +6,9 @@ const Menu = require('../model/Producto')
 
 const getAllProductos = async (req = request, res = response) => {
     try {
-        const { desde, limite } = req.query
-        const query = { publicado: true }
-        // const menues = await Menu.find().skip(desde).limit(limite)
-        // const count = await Menu.countDocuments() //trae la cantidad de documentos de mi coleccion
-        
-        //para optimizar tiempo de respuesta usar Promise all
-        
+        const query = { publicado: true, estado: true }
         const [menues, count] = await Promise.all([
-            Menu.find(query).skip(desde).limit(limite).exec(),
+            Menu.find(query).exec(),
             Menu.countDocuments().exec()
         ])
         return res.status(200).json({count, menues})
@@ -24,14 +18,9 @@ const getAllProductos = async (req = request, res = response) => {
 }
 const getAllProductosAdmin = async (req = request, res = response) => {
         try {
-           
-            // const menues = await Menu.find().skip(desde).limit(limite)
-            // const count = await Menu.countDocuments() //trae la cantidad de documentos de mi coleccion
-            
-            //para optimizar tiempo de respuesta usar Promise all
-            
+           const query = {estado: true}
             const [menues, count] = await Promise.all([
-                Menu.find().exec(),
+                Menu.find(query).exec(),
                 Menu.countDocuments().exec()
             ])
             return res.status(200).json({count, menues})
@@ -98,7 +87,7 @@ const deleteProducto = async (req = request, res = response) => {
         const {productoID} = req.params
     const menu = await Menu.findById(productoID)
     if(!menu) return res.status(500).json({msg: "El menu ya esta inactivo", menu})
-    const menuDesactivado = await Menu.findByIdAndUpdate(productoID, {publicado: false}, { new: true})
+    const menuDesactivado = await Menu.findByIdAndUpdate(productoID, {estado: false}, { new: true})
     res.status(200).json({msg: "menu desactivado", menuDesactivado})
 
     } catch (error) {

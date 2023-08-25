@@ -40,6 +40,10 @@ const ProductoSchema = Schema({
     porcentaje: {
         type: Number,
         required: [true, "no se ha ingresado un porcentaje al menú"]
+    },
+    estado: {
+        type: Boolean,
+        default: true
     }
 })
 
