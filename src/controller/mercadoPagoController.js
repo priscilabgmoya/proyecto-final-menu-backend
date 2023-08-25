@@ -1,11 +1,8 @@
 const { request, response } = require('express');
-const express = require("express");
-const app = express();
-const cors = require("cors");
 const mercadopago = require("mercadopago");
 
 mercadopago.configure({
-	access_token: "<TEST-11152056146747-081405-01e738de716b2fd444a80f1353904f9b-785022875>",
+	access_token: "TEST-2171307434564524-082123-de787478a36dd17318f6ff7ea2937ec8-152864091",
 });
 
 async function dataInicial (req = request, res = response) {
@@ -23,9 +20,9 @@ async function pagarPedido (req = request, res = response) {
 			}
 		],
 		back_urls: {
-			"success": "http://localhost:5173/",
-			"failure": "http://localhost:5173/",
-			"pending": "http://localhost:5173/"
+			"success": "https://friky-sangucheria-v2.netlify.app/",
+			"failure": "https://friky-sangucheria-v2.netlify.app/",
+			"pending": "",
 		},
 		auto_return: "approved",
 	};

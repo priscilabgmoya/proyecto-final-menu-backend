@@ -6,7 +6,7 @@ const router = Router();
 
 router.get('/api/V1/categoriasMenu', obtenerCategorias);
 router.get('/api/V1/categoriaMenu/:id', validarBuscarCategoriaAdmin(), obtenerCategoria);
-router.post('/api/V1/nuevaCategoria' , validarCategoriaNueva(), crearNuevoCategoria); 
+router.post('/api/V1/nuevaCategoria' , validarCategoriaNueva(),crearNuevoCategoria); 
 router.put('/api/V1/modificarCategoria', validarCategoriaModificar(), modificarCategorias); 
 router.delete('/api/V1/eliminarCategoria', validarCategoriaEliminar(), eliminarCategoria);
 
