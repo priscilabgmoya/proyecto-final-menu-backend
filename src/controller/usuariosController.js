@@ -107,7 +107,7 @@ async function modificarUsuario(req= request, res = response){
             const hash = bcrypt.hashSync(usuarioModificado.contraseña, salt);
             usuarioNuevaModificacion.contraseña = hash;
         }
-        const isUpdateOk = await modificaUsuario(id,usuarioNuevaModificacion); 
+        const isUpdateOk = await modificaUsuario(uid,usuarioNuevaModificacion); 
         if(isUpdateOk){
          return  res.status(200).json({msg: "Estado Modificado",data: isUpdateOk})
         }else {
