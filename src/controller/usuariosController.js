@@ -109,9 +109,9 @@ async function modificarUsuario(req= request, res = response){
         }
         const isUpdateOk = await modificaUsuario(uid,usuarioNuevaModificacion); 
         if(isUpdateOk){
-         return  res.status(200).json({msg: "Estado Modificado",data: isUpdateOk})
+         return  res.status(200).json({msg: "Usuario Modificado",data: isUpdateOk})
         }else {
-          return  res.status(500).json({msg: "Falló al modificar el estado !!!"});
+          return  res.status(500).json({msg: "Falló al modificar el usuario !!!"});
         } 
     } catch (error) {
         return res.status(404).json({msg: "ERROR!!" , e: error})
