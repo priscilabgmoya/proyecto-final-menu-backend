@@ -57,7 +57,7 @@ module.exports.validarUsuarioMoficadoAdmin = function (){
 module.exports.validarUsuarioMoficado = function (){
     return [
          validarJWT,
-         body ("id","id Invalido!").isMongoId(),
+         body ("uid","id Invalido!").isMongoId(),
          body ("nombre", "nombre es requerido").isString().notEmpty().matches(ER.ExpRegNombre),
          body ("email", "Email es requerido").isEmail().notEmpty().matches(ER.ExpRegEmail),
          body ("contraseña", "Contraseña es requerida").isLength({min: 8}).matches(ER.ExpRegPass),
