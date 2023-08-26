@@ -85,9 +85,9 @@ async function crearNuevoUsuario( req= request, res = response){
 }
 async function modificarUsuario(req= request, res = response){
     try {
-        const {id, ...usuarioModificado} = req.body;
+        const {uid, ...usuarioModificado} = req.body;
 
-        const usuario_encontrado = await buscarId(id); 
+        const usuario_encontrado = await buscarId(uid); 
         if(!usuario_encontrado)  return res.status(404).json({msg: "Usuario no encontrado"});
       
         const validPassword = bcrypt.compareSync( usuarioModificado.contraseñaActual,usuario_encontrado.contraseña);
