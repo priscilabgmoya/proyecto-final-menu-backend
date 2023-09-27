@@ -171,7 +171,7 @@ async function verificarToken (req= request, res = response) {
         return res.json({
             id: usuario_encontrado._id, 
             nombre: usuario_encontrado.nombre,
-            correo: usuario_encontrado.email,
+            email: usuario_encontrado.email,
             rol: usuario_encontrado.rol,
             estado: usuario_encontrado.estado
         })
