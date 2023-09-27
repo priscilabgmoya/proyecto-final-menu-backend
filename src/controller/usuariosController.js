@@ -189,8 +189,9 @@ async function obtenerUsuario(req= request, res = response){
 
        const usuarioExistente = await buscarId(id);
        if (!usuarioExistente) res.status(404).json({msg: "usuario no encontrado!!"});
+       const {contraseña , ...usuario} = usuarioExistente;
 
-        return res.status(200).json({msg: "usuario", data: usuarioExistente});
+        return res.status(200).json({msg: "usuario", data: usuario});
     } catch (error) {
         return res.status(404).json({msg: "ERROR!!" , e: error})
     }
