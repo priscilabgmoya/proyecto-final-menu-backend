@@ -85,9 +85,9 @@ async function crearNuevoUsuario( req= request, res = response){
 }
 async function modificarUsuario(req= request, res = response){
     try {
-        const {uid, ...usuarioModificado} = req.body;
+        const {id, ...usuarioModificado} = req.body;
 
-        const usuario_encontrado = await buscarId(uid); 
+        const usuario_encontrado = await buscarId(id); 
         if(!usuario_encontrado)  return res.status(404).json({msg: "Usuario no encontrado"});
       
         const validPassword = bcrypt.compareSync( usuarioModificado.contraseñaActual,usuario_encontrado.contraseña);
@@ -107,7 +107,7 @@ async function modificarUsuario(req= request, res = response){
             const hash = bcrypt.hashSync(usuarioModificado.contraseña, salt);
             usuarioNuevaModificacion.contraseña = hash;
         }
-        const isUpdateOk = await modificaUsuario(uid,usuarioNuevaModificacion); 
+        const isUpdateOk = await modificaUsuario(id,usuarioNuevaModificacion); 
         if(isUpdateOk){
          return  res.status(200).json({msg: "Usuario Modificado",data: isUpdateOk})
         }else {
